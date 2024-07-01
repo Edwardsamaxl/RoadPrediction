@@ -1,0 +1,32 @@
+<!-- src/main/resources/Mapper/UserMapper.xml -->
+
+<mapper namespace="backend.Mapper.UserMapper">
+    <resultMap id="userResultMap" type="backend.Entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="mail" column="mail"/>
+        <!-- 其他字段映射 -->
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="userResultMap">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <select id="selectByUsernameAndPassword" resultMap="userResultMap">
+        SELECT * FROM user WHERE username = #{username} AND password = #{password}
+    </select>
+
+    <insert id="insert" parameterType="backend.Entity.User">
+        INSERT INTO user (username, password, mail)
+        VALUES (#{username}, #{password}, #{mail})
+    </insert>
+
+    <update id="updatePassword" parameterType="backend.Entity.User">
+        UPDATE user SET password = #{password} WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="userResultMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+</mapper>
