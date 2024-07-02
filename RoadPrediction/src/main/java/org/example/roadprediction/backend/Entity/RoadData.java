@@ -1,4 +1,4 @@
-package backend.Entity;
+package org.example.roadprediction.backend.Entity;
 
 public class RoadData {
     private int id;

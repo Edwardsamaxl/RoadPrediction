@@ -1,8 +1,8 @@
-package backend.Service.Impl;
+package org.example.roadprediction.backend.Service.Impl;
 
-import backend.Entity.User;
-import backend.Mapper.UserMapper;
-import backend.Service.MailService;
+import org.example.roadprediction.backend.Entity.User;
+import org.example.roadprediction.backend.Mapper.UserMapper;
+import org.example.roadprediction.backend.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,8 @@ public class UserServiceImpl {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private MailService mailService; // 注入 MailService
+//    @Autowired
+//    private MailService mailService; // 注入 MailService
 
     public String register(User user) {
         // 检查用户名是否已存在
@@ -27,7 +27,7 @@ public class UserServiceImpl {
             // 发送邮件通知注册成功（示例，具体内容根据需求修改）
             String subject = "注册成功通知";
             String content = "尊敬的用户，您已成功注册。";
-            mailService.sendPasswordResetEmail(user.getMail(), subject, content);
+//            mailService.sendPasswordResetEmail(user.getMail(), subject, content);
 
             return "用户注册成功！";
         } else {

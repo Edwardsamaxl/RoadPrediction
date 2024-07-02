@@ -1,4 +1,4 @@
-package backend.Service;
+package org.example.roadprediction.backend.Service;
 
 public interface MailService {
 

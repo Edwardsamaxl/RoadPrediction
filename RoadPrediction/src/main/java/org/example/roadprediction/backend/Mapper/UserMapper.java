@@ -1,7 +1,9 @@
-package backend.Mapper;
+package org.example.roadprediction.backend.Mapper;
 
-import backend.Entity.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.example.roadprediction.backend.Entity.User;
 
+@Mapper
 public interface UserMapper {
 
     /**
@@ -44,4 +46,12 @@ public interface UserMapper {
      * @return 查询到的用户对象，如果不存在则返回 null
      */
     User selectById(int id);
+
+    /**
+     * 删除用户记录
+     *
+     * @param id 用户ID
+     * @return 删除操作影响的行数
+     */
+    int deleteById(int id);
 }

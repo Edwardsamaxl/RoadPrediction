@@ -1,7 +1,7 @@
 <!-- src/main/resources/Mapper/UserMapper.xml -->
 
-<mapper namespace="backend.Mapper.UserMapper">
-    <resultMap id="userResultMap" type="backend.Entity.User">
+<mapper namespace="org.example.roadprediction.backend.Mapper.UserMapper">
+    <resultMap id="userResultMap" type="org.example.roadprediction.backend.Entity.User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -17,12 +17,12 @@
         SELECT * FROM user WHERE username = #{username} AND password = #{password}
     </select>
 
-    <insert id="insert" parameterType="backend.Entity.User">
+    <insert id="insert" parameterType="org.example.roadprediction.backend.Entity.User">
         INSERT INTO user (username, password, mail)
         VALUES (#{username}, #{password}, #{mail})
     </insert>
 
-    <update id="updatePassword" parameterType="backend.Entity.User">
+    <update id="updatePassword" parameterType="org.example.roadprediction.backend.Entity.User">
         UPDATE user SET password = #{password} WHERE id = #{id}
     </update>
 
