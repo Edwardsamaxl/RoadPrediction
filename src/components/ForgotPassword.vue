@@ -4,10 +4,11 @@
     <form @submit.prevent="forgotPassword">
       <div>
         <label for="email">Email:</label>
-        <input type="email" v-model="email" id="email" required>
+        <input type="email" v-model="email" placeholder="输入邮箱" id="email" required>
       </div>
       <button type="submit">Send Request</button>
     </form>
+    <button @click="$emit('changeView', 'Login')">Back to Login</button>
   </div>
 </template>
 
@@ -20,9 +21,15 @@ export default {
   },
   methods: {
     forgotPassword() {
-      // Placeholder for forgot password logic
       alert(`Password reset request sent to ${this.email}`);
+      this.$emit('changeView', 'Login');
     }
   }
 }
 </script>
+
+<style scoped>
+button {
+  margin-top: 20px;
+}
+</style>

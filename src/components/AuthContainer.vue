@@ -1,12 +1,7 @@
 <template>
-  <div>
+  <div class="auth-container">
     <h1>Welcome to My Auth App</h1>
-    <div>
-      <button @click="currentView = 'Login'">Login</button>
-      <button @click="currentView = 'Register'">Register</button>
-      <button @click="currentView = 'ForgotPassword'">Forgot Password</button>
-    </div>
-    <component :is="currentViewComponent" v-if="currentViewComponent"></component>
+    <component :is="currentViewComponent" @changeView="changeView" @actionCompleted="handleActionCompleted" v-if="currentViewComponent"></component>
   </div>
 </template>
 
@@ -29,6 +24,14 @@ export default {
       return null
     }
   },
+  methods: {
+    changeView(view) {
+      this.currentView = view;
+    },
+    handleActionCompleted() {
+      this.currentView = 'Login';
+    }
+  },
   components: {
     Login,
     Register,
@@ -36,3 +39,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+</style>
