@@ -2,21 +2,28 @@
   <div>
     <h2>Register</h2>
     <form @submit.prevent="register">
-      <div>
+      <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" v-model="username" placeholder="输入账号" id="username" required>
+        <el-input maxlength="10" clearable native-type="text" v-model="username" placeholder="输入账号" id="username" required/>
       </div>
-      <div>
+      <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" v-model="email" placeholder="输入邮箱" id="email" required>
+        <el-input v-model="email" placeholder="输入邮箱" id="email" required>
+          <template #append>
+            <el-select v-model="emailSuffix" placeholder="选择后缀">
+              <el-option label=".com" value=".com"></el-option>
+              <el-option label=".cn" value=".cn"></el-option>
+            </el-select>
+          </template>
+        </el-input>
       </div>
-      <div>
+      <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" v-model="password" placeholder="输入密码" id="password" required>
+        <el-input maxlength="14" show-password native-type="password" v-model="password" placeholder="输入密码" id="password" @blur="validatePassword" :class="{ 'is-error': passwordError }" required/>
       </div>
-      <button type="submit">Register</button>
+      <el-button round type="success" native-type="submit" :disabled="passwordError || !password" @click="register">Register</el-button>
     </form>
-    <button @click="$emit('changeView', 'Login')">Back to Login</button>
+    <el-button round type="primary" @click="$emit('changeView', 'Login')">Back to Login</el-button>
   </div>
 </template>
 
@@ -26,12 +33,37 @@ export default {
     return {
       username: '',
       email: '',
-      password: ''
+      emailSuffix: '.com', 
+      password: '',
+      passwordError: true,
+      showError: false 
     }
   },
+  watch: {
+    password: 'validatePassword'
+  },
   methods: {
+    validatePassword() {
+      const password = this.password;
+      if (password.length < 6 || password.length > 14) {
+        this.passwordError = true;
+        if (!this.showError) { 
+          this.$message.error('密码长度应在6到14个字符之间');
+          this.showError = true;
+        }
+      } else {
+        this.passwordError = false;
+        this.showError = false; 
+      }
+    },
     register() {
-      alert(`Register with ${this.username}, ${this.email} and ${this.password}`);
+      this.validatePassword(); 
+      if (this.passwordError) {
+        this.$message.error('请修正表单错误后再提交');
+        return;
+      }
+      const fullEmail = `${this.email}${this.emailSuffix}`;
+      alert(`Register with ${this.username}, ${fullEmail} and ${this.password}`);
       this.$emit('changeView', 'Login');
     }
   }
@@ -39,7 +71,33 @@ export default {
 </script>
 
 <style scoped>
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+.el-input {
+  width: 100%;
+}
+
+.el-select {
+  width: 100px;
+}
+
 button {
+  padding: 10px 20px;
   margin-top: 20px;
+  width: 100%;
+}
+
+.is-error .el-input__inner {
+  border-color: red;
 }
 </style>
