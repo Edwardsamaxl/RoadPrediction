@@ -13,6 +13,6 @@ import router from './router'
 npm install element-plus --save
 npm install @element-plus/icons
 npm install vue-router
-
+npm install @amap/amap-jsapi-loader
 
 ###
