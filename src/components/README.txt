@@ -1,4 +1,5 @@
-﻿1.使用了elementplus，
+﻿1.需要配置vue3环境
+2.使用了elementplus，
 需要安装相关组件
 导入
 ###

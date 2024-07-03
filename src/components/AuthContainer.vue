@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="header-title">Welcome to My Auth App</h1>
+    <nav class="navbar">
+      <h1 class="header-title">Welcome to My Auth App</h1>
+    </nav>
     <div class="auth-container">
       <component :is="currentViewComponent" @changeView="changeView" @actionCompleted="handleActionCompleted" v-if="currentViewComponent"></component>
     </div>
@@ -51,6 +53,21 @@ export default {
   height: 100vh;
   padding-right: 10%;
   box-sizing: border-box;
+  padding-top: 60px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* 任务栏背景色 */
+  color: white; /* 任务栏字体颜色 */
+  height: 60px; /* 任务栏高度 */
+  display: flex;
+  align-items: center;
+  padding: 0 20px; /* 左右内边距 */
+  box-sizing: border-box;
 }
 
 .header-title {
@@ -58,6 +75,7 @@ export default {
   top: 20px;
   left: 20px;
   margin: 0;
+  font-size:17px;
 }
 
 .auth-container {

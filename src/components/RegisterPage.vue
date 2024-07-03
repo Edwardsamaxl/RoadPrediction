@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="register-wrapper">
     <h2>Register</h2>
     <form @submit.prevent="register">
       <div class="form-group">
@@ -71,6 +71,20 @@ export default {
 </script>
 
 <style scoped>
+#register-wrapper{
+  border: 1px solid #000; /* 边框颜色 */
+  border-radius: 5px; /* 边框圆角 */
+  padding: 20px; /* 内边距 */
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* 阴影效果 */
+  width: 340px; /* 固定宽度 */
+  height: 370px; /* 固定高度 */
+  margin: auto; /* 自动调整外边距，使其水平居中 */
+  background-color: #fff; /* 背景颜色 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中 */
+  align-items: center; /* 水平居中 */
+}
 .form-group {
   display: flex;
   flex-direction: column;
@@ -94,7 +108,7 @@ label {
 button {
   padding: 10px 20px;
   margin-top: 20px;
-  width: 100%;
+  width: 150px;
 }
 
 .is-error .el-input__inner {
