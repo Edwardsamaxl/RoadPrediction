@@ -16,8 +16,8 @@
     </el-form>
 
     <div class="button-container">
-      <el-button size="small" round type="primary" class="loginbutton" @click="$emit('changeView', 'Register')">Register</el-button>
-      <el-button size="small" round type="info" class="loginbutton" @click="$emit('changeView', 'ForgotPassword')">Forgot</el-button>
+      <el-button size="small" round type="primary" class="loginbutton" @click="$router.push({ name: 'Register' })">Register</el-button>
+      <el-button size="small" round type="info" class="loginbutton" @click="$router.push({ name: 'ForgotPassword' })">Forgot</el-button>
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
           if (this.username === '123' && this.password === '123') {
             const fakeToken = '1234567890abcdef';
             localStorage.setItem("user-token", fakeToken);
-            this.$emit('changeView', 'MyAuth');
+            this.$router.push({ name: 'MyAuth' });
           } else {
             alert('账号密码错误，请重新输入');
           }

@@ -4,46 +4,14 @@
       <h1 class="header-title">Welcome to My Auth App</h1>
     </nav>
     <div class="auth-container">
-      <component :is="currentViewComponent" @changeView="changeView" @actionCompleted="handleActionCompleted" v-if="currentViewComponent"></component>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import Login from './LoginPage.vue'
-import Register from './RegisterPage.vue'
-import ForgotPassword from './ForgotPassword.vue'
-import MyAuth from './MyAuth.vue'
-
 export default {
-  data() {
-    return {
-      currentView: 'Login'
-    }
-  },
-  computed: {
-    currentViewComponent() {
-      if (this.currentView === 'Login') return Login
-      if (this.currentView === 'Register') return Register
-      if (this.currentView === 'ForgotPassword') return ForgotPassword
-      if (this.currentView === 'MyAuth') return MyAuth
-      return null
-    }
-  },
-  methods: {
-    changeView(view) {
-      this.currentView = view;
-    },
-    handleActionCompleted() {
-      this.currentView = 'Login';
-    }
-  },
-  components: {
-    Login,
-    Register,
-    ForgotPassword,
-    MyAuth
-  }
+  name: 'AuthContainer'
 }
 </script>
 

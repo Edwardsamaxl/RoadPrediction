@@ -1,13 +1,13 @@
 <template>
   <div id="register-wrapper">
     <h2>Register</h2>
-    <form @submit.prevent="register">
+    <el-form @submit.prevent="register">
       <div class="form-group">
-        <label for="username">Username:</label>
+        <el-label for="username">Username:</el-label>
         <el-input maxlength="10" clearable native-type="text" v-model="username" placeholder="输入账号" id="username" required/>
       </div>
       <div class="form-group">
-        <label for="email">Email:</label>
+        <el-label for="email">Email:</el-label>
         <el-input v-model="email" placeholder="输入邮箱" id="email" required>
           <template #append>
             <el-select v-model="emailSuffix" placeholder="选择后缀">
@@ -18,12 +18,12 @@
         </el-input>
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
+        <el-label for="password">Password:</el-label>
         <el-input maxlength="14" show-password native-type="password" v-model="password" placeholder="输入密码" id="password" @blur="validatePassword" :class="{ 'is-error': passwordError }" required/>
       </div>
-      <el-button round type="success" native-type="submit" :disabled="passwordError || !password" @click="register">Register</el-button>
-    </form>
-    <el-button round type="primary" @click="$emit('changeView', 'Login')">Back to Login</el-button>
+      <el-button round type="success" native-type="submit" :disabled="passwordError || !password">Register</el-button>
+    </el-form>
+    <el-button round type="primary" @click="$router.push({ name: 'Login' })">Back to Login</el-button>
   </div>
 </template>
 
@@ -64,27 +64,28 @@ export default {
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
       alert(`Register with ${this.username}, ${fullEmail} and ${this.password}`);
-      this.$emit('changeView', 'Login');
+      this.$router.push({ name: 'Login' });
     }
   }
 }
 </script>
 
 <style scoped>
-#register-wrapper{
-  border: 1px solid #000; /* 边框颜色 */
-  border-radius: 5px; /* 边框圆角 */
-  padding: 20px; /* 内边距 */
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* 阴影效果 */
-  width: 340px; /* 固定宽度 */
-  height: 370px; /* 固定高度 */
-  margin: auto; /* 自动调整外边距，使其水平居中 */
-  background-color: #fff; /* 背景颜色 */
+#register-wrapper {
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  width: 340px;
+  height: 370px;
+  margin: auto;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 垂直居中 */
-  align-items: center; /* 水平居中 */
+  justify-content: center;
+  align-items: center;
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
