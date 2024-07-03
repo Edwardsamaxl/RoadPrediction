@@ -6,9 +6,13 @@
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElIcons from '@element-plus/icons'
+import router from './router'
 ###
 安装
 ###
 npm install element-plus --save
 npm install @element-plus/icons
+npm install vue-router
+
+
 ###

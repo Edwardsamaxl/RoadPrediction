@@ -13,6 +13,7 @@
 import Login from './LoginPage.vue'
 import Register from './RegisterPage.vue'
 import ForgotPassword from './ForgotPassword.vue'
+import MyAuth from './MyAuth.vue'
 
 export default {
   data() {
@@ -25,6 +26,7 @@ export default {
       if (this.currentView === 'Login') return Login
       if (this.currentView === 'Register') return Register
       if (this.currentView === 'ForgotPassword') return ForgotPassword
+      if (this.currentView === 'MyAuth') return MyAuth
       return null
     }
   },
@@ -39,7 +41,8 @@ export default {
   components: {
     Login,
     Register,
-    ForgotPassword
+    ForgotPassword,
+    MyAuth
   }
 }
 </script>
@@ -48,10 +51,9 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   height: 100vh;
-  padding-right: 10%;
   box-sizing: border-box;
   padding-top: 60px;
 }
@@ -66,16 +68,14 @@ export default {
   height: 60px; /* 任务栏高度 */
   display: flex;
   align-items: center;
-  padding: 0 20px; /* 左右内边距 */
+  justify-content: center; /* Center align the title */
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
 .header-title {
-  position: absolute;
-  top: 20px;
-  left: 20px;
   margin: 0;
-  font-size:17px;
+  font-size: 17px;
 }
 
 .auth-container {
@@ -84,7 +84,7 @@ export default {
   align-items: center;
   text-align: center;
   width: 100%;
-  max-width: 400px; /* Limit the width of the auth-container */
+  max-width: 400px;
   padding: 20px;
   box-sizing: border-box;
 }

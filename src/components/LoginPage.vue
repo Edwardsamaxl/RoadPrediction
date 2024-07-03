@@ -32,20 +32,20 @@ export default {
   },
   methods: {
     login() {
-    if (this.username && this.password) {
-      setTimeout(() => {
-        if (this.username === '123' && this.password === '123') {
-          const fakeToken = '1234567890abcdef';
-          localStorage.setItem("user-token", fakeToken);
-          this.$router.push({ name: 'MyAuth' });
-        } else {
-          alert('账号密码错误，请重新输入');
-        }
-      }, 1000);
-    } else {
-      alert('请输入用户名和密码');
+      if (this.username && this.password) {
+        setTimeout(() => {
+          if (this.username === '123' && this.password === '123') {
+            const fakeToken = '1234567890abcdef';
+            localStorage.setItem("user-token", fakeToken);
+            this.$emit('changeView', 'MyAuth');
+          } else {
+            alert('账号密码错误，请重新输入');
+          }
+        }, 1000);
+      } else {
+        alert('请输入用户名和密码');
+      }
     }
-  }
   }
 }
 </script>
