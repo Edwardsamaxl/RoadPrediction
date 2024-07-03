@@ -35,10 +35,8 @@ public class UserController {
     public ResponseEntity<Response<User>> login(@RequestBody User loginUser) {
         User user = userService.login(loginUser.getUsername(), loginUser.getPassword());
         if (user != null) {
-            System.out.println("111");
             return ResponseEntity.ok(Response.success(user));
         } else {
-            System.out.println("222");
             return ResponseEntity.status(404).body(Response.error(404, "Invalid username or password"));
         }
     }

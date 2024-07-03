@@ -28,7 +28,7 @@ public interface UserService {
      * @param oldPassword 旧密码
      * @return 是否验证通过
      */
-    boolean verifyPassword(int userId, String oldPassword);
+    boolean verifyPassword(Integer userId, String oldPassword);
 
     /**
      * 更新密码
@@ -37,5 +37,5 @@ public interface UserService {
      * @param newPassword 新密码
      * @return 是否更新成功
      */
-    boolean updatePassword(int userId, String newPassword);
+    boolean updatePassword(Integer userId, String newPassword);
 }

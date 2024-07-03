@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) {
         // 查询用户记录
         User user = userMapper.selectByUsernameAndPassword(username, password);
-
         // 如果用户存在且密码匹配，则返回用户对象，否则返回 null
         if (user != null) {
             return user;
@@ -43,13 +42,13 @@ public class UserServiceImpl implements UserService {
         }
     }
     // 校验旧密码是否正确
-    public boolean verifyPassword(int userId, String oldPassword) {
+    public boolean verifyPassword(Integer userId, String oldPassword) {
         User user = userMapper.selectById(userId);
         return user != null && user.getPassword().equals(oldPassword);
     }
 
     // 更新密码
-    public boolean updatePassword(int userId, String newPassword) {
+    public boolean updatePassword(Integer userId, String newPassword) {
         User user = userMapper.selectById(userId);
         if (user != null) {
             user.setPassword(newPassword);

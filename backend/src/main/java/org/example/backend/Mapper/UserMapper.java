@@ -45,7 +45,7 @@ public interface UserMapper {
      * @param id 用户ID
      * @return 查询到的用户对象，如果不存在则返回 null
      */
-    User selectById(int id);
+    User selectById(Integer id);
 
     /**
      * 删除用户记录
@@ -53,5 +53,5 @@ public interface UserMapper {
      * @param id 用户ID
      * @return 删除操作影响的行数
      */
-    int deleteById(int id);
+    int deleteById(Integer id);
 }
