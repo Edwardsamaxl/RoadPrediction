@@ -41,16 +41,11 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
-    // 校验旧密码是否正确
-    public boolean verifyPassword(Integer userId, String oldPassword) {
-        User user = userMapper.selectById(userId);
-        return user != null && user.getPassword().equals(oldPassword);
-    }
 
     // 更新密码
-    public boolean updatePassword(Integer userId, String newPassword) {
-        User user = userMapper.selectById(userId);
-        if (user != null) {
+    public boolean updatePassword(String username, String oldPassword, String newPassword) {
+        User user = userMapper.selectByUsername(username);
+        if (user != null&&user.getPassword().equals(oldPassword)) {
             user.setPassword(newPassword);
             int rows = userMapper.updatePassword(user);
             return rows > 0;

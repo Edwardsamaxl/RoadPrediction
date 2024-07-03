@@ -7,10 +7,8 @@ import org.example.backend.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.example.backend.utils.PasswordUpdateUtil;
 
 import java.util.Map;
 
@@ -54,31 +52,18 @@ public class UserController {
         return ResponseEntity.status(404).body(Response.error(404, "register failed"));
     }
 
-    @PostMapping("/verifyPassword")
-    public ResponseEntity<Response<String>> verifyPassword(@RequestBody Map<String, Object> requestMap) {
-        int userId = (int) requestMap.get("userId");
-        String oldPassword = (String) requestMap.get("oldPassword");
+    @PostMapping("/update")
+    public ResponseEntity<Response<String>> updatePassword(@RequestBody PasswordUpdateUtil passwordUpdateUtil) {
+        boolean updated = userService.updatePassword(
+                passwordUpdateUtil.getUsername(),
+                passwordUpdateUtil.getOldPassword(),
+                passwordUpdateUtil.getNewPassword());
 
-        boolean verified = userService.verifyPassword(userId, oldPassword);
-        if (verified) {
-            return ResponseEntity.ok(Response.success("Password verified successfully"));
-        } else {
-            return ResponseEntity.status(404).body(Response.error(404, "Password verification failed"));
-        }
-    }
-
-    @PostMapping("/updatePassword")
-    public ResponseEntity<Response<String>> updatePassword(@RequestBody Map<String, Object> requestMap) {
-        int userId = (int) requestMap.get("userId");
-        String newPassword = (String) requestMap.get("newPassword");
-
-        boolean updated = userService.updatePassword(userId, newPassword);
         if (updated) {
-            return ResponseEntity.ok(Response.success("Password updated successfully"));
+            return ResponseEntity.ok(Response.success("密码更新成功"));
         } else {
-            return ResponseEntity.status(404).body(Response.error(404, "Password update failed"));
+            return ResponseEntity.status(404).body(Response.error(404, "密码更新失败"));
         }
     }
-
 
 }

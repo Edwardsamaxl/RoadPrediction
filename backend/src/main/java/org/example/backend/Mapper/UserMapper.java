@@ -47,11 +47,4 @@ public interface UserMapper {
      */
     User selectById(Integer id);
 
-    /**
-     * 删除用户记录
-     *
-     * @param id 用户ID
-     * @return 删除操作影响的行数
-     */
-    int deleteById(Integer id);
 }

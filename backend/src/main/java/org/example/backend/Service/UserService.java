@@ -22,20 +22,12 @@ public interface UserService {
     User login(String username, String password);
 
     /**
-     * 校验旧密码是否正确
-     *
-     * @param userId      用户ID
-     * @param oldPassword 旧密码
-     * @return 是否验证通过
-     */
-    boolean verifyPassword(Integer userId, String oldPassword);
-
-    /**
      * 更新密码
      *
-     * @param userId      用户ID
+     * @param username      用户ID
+     * @param oldPassword 新密码
      * @param newPassword 新密码
      * @return 是否更新成功
      */
-    boolean updatePassword(Integer userId, String newPassword);
+    boolean updatePassword(String username, String oldPassword, String newPassword);
 }
