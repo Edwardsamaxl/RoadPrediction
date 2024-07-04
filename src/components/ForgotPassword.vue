@@ -1,9 +1,9 @@
 <template>
   <div id="forgot-password-wrapper">
-    <h2>Forgot Password</h2>
-    <form @submit.prevent="forgotPassword">
+    <h2>忘记密码</h2>
+    <el-form @submit.prevent="forgotPassword">
       <div class="form-group">
-        <label for="email">Email:</label>
+        <el-label for="email">邮箱:</el-label>
         <el-input v-model="email" placeholder="输入邮箱" id="email" required>
           <template #append>
             <el-select v-model="emailSuffix" placeholder="选择后缀">
@@ -13,13 +13,15 @@
           </template>
         </el-input>
       </div>
-      <el-button round type="success" native-type="submit">Send Request</el-button>
-    </form>
-    <el-button round type="primary" @click="$router.push({ name: 'Login' })">Back to Login</el-button>
+      <el-button round type="success" native-type="submit">发送请求</el-button>
+    </el-form>
+    <el-button round type="primary" @click="$router.push({ name: 'Login' })">返回登录</el-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -28,14 +30,25 @@ export default {
     }
   },
   methods: {
-    forgotPassword() {
+    async forgotPassword() {
       if (!this.email) {
         this.$message.error('请输入邮箱');
         return;
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
-      alert(`Password reset request sent to ${fullEmail}`);
-      this.$router.push({ name: 'Login' });
+      try {
+        const response = await axios.post('http://localhost:8080/User/update', {
+          email: fullEmail
+        });
+        if (response.data.status === 200) {
+          this.$message.success('密码重置请求已发送，请查收邮件');
+          this.$router.push({ name: 'Login' });
+        } else {
+          this.$message.error(response.data.message);
+        }
+      } catch (error) {
+        this.$message.error('请求失败，请稍后再试');
+      }
     }
   }
 }

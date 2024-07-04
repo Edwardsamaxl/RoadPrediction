@@ -1,13 +1,13 @@
 <template>
   <div id="register-wrapper">
-    <h2>Register</h2>
+    <h2>注册</h2>
     <el-form @submit.prevent="register">
       <div class="form-group">
-        <el-label for="username">Username:</el-label>
+        <el-label for="username">用户名:</el-label>
         <el-input maxlength="10" clearable native-type="text" v-model="username" placeholder="输入账号" id="username" required/>
       </div>
       <div class="form-group">
-        <el-label for="email">Email:</el-label>
+        <el-label for="email">邮箱:</el-label>
         <el-input v-model="email" placeholder="输入邮箱" id="email" required>
           <template #append>
             <el-select v-model="emailSuffix" placeholder="选择后缀">
@@ -18,25 +18,27 @@
         </el-input>
       </div>
       <div class="form-group">
-        <el-label for="password">Password:</el-label>
+        <el-label for="password">密码:</el-label>
         <el-input maxlength="14" show-password native-type="password" v-model="password" placeholder="输入密码" id="password" @blur="validatePassword" :class="{ 'is-error': passwordError }" required/>
       </div>
-      <el-button round type="success" native-type="submit" :disabled="passwordError || !password">Register</el-button>
+      <el-button round type="success" native-type="submit" :disabled="passwordError || !password">注册</el-button>
     </el-form>
-    <el-button round type="primary" @click="$router.push({ name: 'Login' })">Back to Login</el-button>
+    <el-button round type="primary" @click="$router.push({ name: 'Login' })">返回登录</el-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       username: '',
       email: '',
-      emailSuffix: '.com', 
+      emailSuffix: '.com',
       password: '',
       passwordError: true,
-      showError: false 
+      showError: false
     }
   },
   watch: {
@@ -47,24 +49,37 @@ export default {
       const password = this.password;
       if (password.length < 6 || password.length > 14) {
         this.passwordError = true;
-        if (!this.showError) { 
+        if (!this.showError) {
           this.$message.error('密码长度应在6到14个字符之间');
           this.showError = true;
         }
       } else {
         this.passwordError = false;
-        this.showError = false; 
+        this.showError = false;
       }
     },
-    register() {
-      this.validatePassword(); 
+    async register() {
+      this.validatePassword();
       if (this.passwordError) {
         this.$message.error('请修正表单错误后再提交');
         return;
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
-      alert(`Register with ${this.username}, ${fullEmail} and ${this.password}`);
-      this.$router.push({ name: 'Login' });
+      try {
+        const response = await axios.post('http://localhost:8080/User/register', {
+          username: this.username,
+          email: fullEmail,
+          password: this.password
+        });
+        if (response.data.status === 200) {
+          this.$message.success('注册成功，请登录');
+          this.$router.push({ name: 'Login' });
+        } else {
+          this.$message.error(response.data.message);
+        }
+      } catch (error) {
+        this.$message.error('请求失败，请稍后再试');
+      }
     }
   }
 }
@@ -77,7 +92,7 @@ export default {
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   width: 340px;
-  height: 370px;
+  height: 400px;
   margin: auto;
   background-color: #fff;
   display: flex;

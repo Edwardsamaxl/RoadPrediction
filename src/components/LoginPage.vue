@@ -1,28 +1,30 @@
 <template>
   <div id="login-wrapper">
-    <h2>Login</h2>
+    <h2>登录</h2>
     <el-form @submit.prevent="login">
       <div class="form-group">
-        <el-label for="username">Username:</el-label>
-        <el-input id="username" clearable type="text" v-model="username" placeholder="请输入username" required />
+        <el-label for="username">用户名:</el-label>
+        <el-input id="username" clearable type="text" v-model="username" placeholder="请输入用户名" required />
       </div>
 
       <div class="form-group">
-        <el-label for="password">Password:</el-label>
-        <el-input id="password" show-password native-type="password" v-model="password" placeholder="请输入password" required />
+        <el-label for="password">密码:</el-label>
+        <el-input id="password" show-password native-type="password" v-model="password" placeholder="请输入密码" required />
       </div>
 
-      <el-button type="success" native-type="submit">Login</el-button>
+      <el-button type="success" native-type="submit">登录</el-button>
     </el-form>
 
     <div class="button-container">
-      <el-button size="small" round type="primary" class="loginbutton" @click="$router.push({ name: 'Register' })">Register</el-button>
-      <el-button size="small" round type="info" class="loginbutton" @click="$router.push({ name: 'ForgotPassword' })">Forgot</el-button>
+      <el-button size="small" round type="primary" class="loginbutton" @click="$router.push({ name: 'Register' })">注册</el-button>
+      <el-button size="small" round type="info" class="loginbutton" @click="$router.push({ name: 'ForgotPassword' })">忘记密码</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -31,19 +33,24 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       if (this.username && this.password) {
-        setTimeout(() => {
-          if (this.username === '123' && this.password === '123') {
-            const fakeToken = '1234567890abcdef';
-            localStorage.setItem("user-token", fakeToken);
+        try {
+          const response = await axios.post('http://localhost:8080/User/login', {
+            username: this.username,
+            password: this.password
+          });
+          if (response.data.status === 200) {
+            // 登录成功，处理成功逻辑
             this.$router.push({ name: 'MyAuth' });
           } else {
-            alert('账号密码错误，请重新输入');
+            this.$message.error(response.data.message);
           }
-        }, 1000);
+        } catch (error) {
+          this.$message.error('请求失败，请稍后再试');
+        }
       } else {
-        alert('请输入用户名和密码');
+        this.$message.error('请输入用户名和密码');
       }
     }
   }
