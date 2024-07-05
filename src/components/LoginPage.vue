@@ -12,7 +12,9 @@
         <el-input id="password" show-password native-type="password" v-model="password" placeholder="请输入密码" required />
       </div>
 
-      <el-button type="success" native-type="submit">登录</el-button>
+      <div class="button-container">
+        <el-button round type="success" native-type="submit" class="loginbutton">登录</el-button>
+      </div>
     </el-form>
 
     <div class="button-container">
@@ -36,17 +38,18 @@ export default {
     async login() {
       if (this.username && this.password) {
         try {
-          const response = await axios.post('http://localhost:8080/User/login', {
+          const response = await axios.post('http://192.168.31.153:8080/User/login', {
             username: this.username,
             password: this.password
           });
           if (response.data.status === 200) {
             // 登录成功，处理成功逻辑
-            this.$router.push({ name: 'MyAuth' });
+            this.$router.push('/myauth');
           } else {
             this.$message.error(response.data.message);
           }
         } catch (error) {
+          console.log(error);
           this.$message.error('请求失败，请稍后再试');
         }
       } else {
@@ -65,7 +68,7 @@ export default {
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* 阴影效果 */
   width: 340px; /* 固定宽度 */
   height: 370px; /* 固定高度 */
-  margin: auto; /* 自动调整外边距，使其水平居中 */
+  margin: 0 auto; /* 使其水平居中 */
   background-color: #fff; /* 背景颜色 */
   display: flex;
   flex-direction: column;
@@ -93,7 +96,7 @@ label {
 .button-container {
   margin-top: 20px;
   display: flex;
-  justify-content: center; /* 改为center以使按钮居中 */
+  justify-content: center; /* 使按钮容器的子元素居中 */
   gap: 10px; /* 使用flex-gap来控制按钮之间的距离 */
   width: 100%;
 }
@@ -105,5 +108,7 @@ button {
 .loginbutton {
   width: 100px;
   height: 35px;
+  display: block; /* 独占一行 */
+  margin: 0 auto; /* 水平居中 */
 }
 </style>

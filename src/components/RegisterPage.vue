@@ -21,7 +21,7 @@
         <el-label for="password">密码:</el-label>
         <el-input maxlength="14" show-password native-type="password" v-model="password" placeholder="输入密码" id="password" @blur="validatePassword" :class="{ 'is-error': passwordError }" required/>
       </div>
-      <el-button round type="success" native-type="submit" :disabled="passwordError || !password">注册</el-button>
+      <el-button round type="success" native-type="submit" :disabled="passwordError || !password" class="registerbutton">注册</el-button>
     </el-form>
     <el-button round type="primary" @click="$router.push({ name: 'Login' })">返回登录</el-button>
   </div>
@@ -66,7 +66,7 @@ export default {
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
       try {
-        const response = await axios.post('http://localhost:8080/User/register', {
+        const response = await axios.post('http://192.168.31.153:8080/User/register', {
           username: this.username,
           email: fullEmail,
           password: this.password
@@ -92,7 +92,7 @@ export default {
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   width: 340px;
-  height: 400px;
+  height: 370px;
   margin: auto;
   background-color: #fff;
   display: flex;
@@ -129,5 +129,11 @@ button {
 
 .is-error .el-input__inner {
   border-color: red;
+}
+.registerbutton{
+  width: 150px;
+  height: 32px;
+  display: block; /* 独占一行 */
+  margin: 0 auto; /* 水平居中 */
 }
 </style>

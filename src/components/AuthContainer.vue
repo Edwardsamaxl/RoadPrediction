@@ -25,12 +25,16 @@ html, body {
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
+  justify-content: center; /* 确保内容在垂直方向居中 */
+  height: 100vh;
+  width: 100vw;
   box-sizing: border-box;
   background-image: url("/public/background.png"); /* 使用绝对路径 */
   background-size: cover;
   background-attachment: fixed; /* 背景图片固定 */
   background-position: center;
+  overflow: hidden; /* 防止滚动条显示 */
 }
 
 .navbar {
@@ -46,7 +50,7 @@ html, body {
   justify-content: center; /* 居中对齐标题 */
   padding: 0 20px;
   box-sizing: border-box;
-  z-index: 1; /* 确保导航栏在背景图片之上 */
+  z-index: 2; /* 确保导航栏在背景图片之上 */
 }
 
 .header-title {
@@ -60,7 +64,7 @@ html, body {
   align-items: center;
   justify-content: center; /* 确保内容在垂直方向居中 */
   width: 100%;
-  min-height: 100vh;
+  height: calc(100vh - 60px); /* 减去导航栏的高度 */
   padding-top: 60px; /* 确保内容不会被导航栏遮挡 */
   box-sizing: border-box;
   z-index: 1; /* 确保内容在背景图片之上 */

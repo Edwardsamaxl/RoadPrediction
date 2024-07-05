@@ -13,7 +13,7 @@
           </template>
         </el-input>
       </div>
-      <el-button round type="success" native-type="submit">发送请求</el-button>
+      <el-button round type="success" native-type="submit" class="forgotbutton">发送请求</el-button>
     </el-form>
     <el-button round type="primary" @click="$router.push({ name: 'Login' })">返回登录</el-button>
   </div>
@@ -37,7 +37,7 @@ export default {
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
       try {
-        const response = await axios.post('http://localhost:8080/User/update', {
+        const response = await axios.post('http://192.168.31.153:8080/User/update', {
           email: fullEmail
         });
         if (response.data.status === 200) {
@@ -94,5 +94,12 @@ button {
   padding: 10px 20px;
   margin-top: 30px;
   width: 150px;
+}
+.forgotbutton{
+  width: 150px;
+  height: 32px;
+  display: block; /* 独占一行 */
+  margin: 0 auto; /* 水平居中 */
+  margin: 40px auto 0; /* 上方20px, 水平居中 */
 }
 </style>

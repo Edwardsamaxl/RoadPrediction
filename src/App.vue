@@ -1,18 +1,9 @@
 <template>
-  <div id="app">
-    <AuthContainer />
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import AuthContainer from './components/AuthContainer.vue'
-
 export default {
-  name: 'App',
-  components: {
-    AuthContainer
-  }
+  name: 'App'
 }
 </script>
-
-
