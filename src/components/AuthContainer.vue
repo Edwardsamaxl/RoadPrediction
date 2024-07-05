@@ -3,7 +3,7 @@
     <nav class="navbar">
       <h1 class="header-title">Welcome to My Auth App</h1>
     </nav>
-    <div class="auth-container">
+    <div class="auth-content">
       <router-view></router-view>
     </div>
   </div>
@@ -16,14 +16,21 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 60px;
+  background-image: url("/public/background.png"); /* 使用绝对路径 */
+  background-size: cover;
+  background-attachment: fixed; /* 背景图片固定 */
+  background-position: center;
 }
 
 .navbar {
@@ -36,9 +43,10 @@ export default {
   height: 60px; /* 任务栏高度 */
   display: flex;
   align-items: center;
-  justify-content: center; /* Center align the title */
+  justify-content: center; /* 居中对齐标题 */
   padding: 0 20px;
   box-sizing: border-box;
+  z-index: 1; /* 确保导航栏在背景图片之上 */
 }
 
 .header-title {
@@ -46,14 +54,16 @@ export default {
   font-size: 17px;
 }
 
-.auth-container {
+.auth-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center; /* 确保内容在垂直方向居中 */
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
+  min-height: 100vh;
+  padding-top: 60px; /* 确保内容不会被导航栏遮挡 */
   box-sizing: border-box;
+  z-index: 1; /* 确保内容在背景图片之上 */
+  position: relative;
 }
 </style>
