@@ -15,6 +15,9 @@
         </span>
         <template v-slot:dropdown>
           <el-dropdown-menu>
+            <el-dropdown-item command="road-predict">出行预测</el-dropdown-item>
+            <el-dropdown-item command="flow-indication">流量查询</el-dropdown-item>
+            <el-dropdown-item command="personal-central">个人中心</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -25,6 +28,7 @@
     </div>
   </div>
 </template>
+
 
 
 
