@@ -1,16 +1,20 @@
 <template>
   <div class="myauth-container">
     <nav class="myauth-navbar">
-      <h1 class="myauth-title">MyAuth</h1>
+      <div class="left-section">
+        <h1 class="myauth-title">MyAuth</h1>
+        <div class="nav-links">
+          <el-button type="text" @click="navigateTo('RoadPredict')">出行预测</el-button>
+          <el-button type="text" @click="navigateTo('FlowIndication')">流量查询</el-button>
+          <el-button type="text" @click="navigateTo('PersonalCentral')">个人中心</el-button>
+        </div>
+      </div>
       <el-dropdown class="avatar-dropdown" @command="handleCommand">
         <span class="el-dropdown-link">
           <img src="/image.jpg" class="avatar" alt="Avatar">
         </span>
         <template v-slot:dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="road-predict">出行预测</el-dropdown-item>
-            <el-dropdown-item command="flow-indication">流量查询</el-dropdown-item>
-            <el-dropdown-item command="personal-central">个人中心</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -21,6 +25,8 @@
     </div>
   </div>
 </template>
+
+
 
 <script>
 import { useRouter } from 'vue-router'
@@ -41,8 +47,12 @@ export default {
         router.push({ name: 'Login' });
       }
     }
+    const navigateTo = (route) => {
+  router.push({ name: route });
+};
 
     return {
+      navigateTo,
       handleCommand
     }
   }
@@ -66,6 +76,21 @@ export default {
   z-index: 1;
 }
 
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.nav-links .el-button {
+  color: white;
+}
+
 .avatar-dropdown {
   cursor: pointer;
 }
@@ -80,4 +105,5 @@ export default {
 .content-container {
   margin-top: 60px; /* 确保内容在导航栏下方显示 */
 }
+
 </style>
