@@ -66,7 +66,7 @@ export default {
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
       try {
-        const response = await axios.post('http://192.168.31.153:8080/User/register', {
+        const response = await axios.post('http://192.168.43.84:8080/User/register', {
           username: this.username,
           email: fullEmail,
           password: this.password

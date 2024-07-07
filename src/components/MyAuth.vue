@@ -4,9 +4,9 @@
       <div class="left-section">
         <h1 class="myauth-title">MyAuth</h1>
         <div class="nav-links">
-          <el-button type="text" @click="navigateTo('RoadPredict')">出行预测</el-button>
-          <el-button type="text" @click="navigateTo('FlowIndication')">流量查询</el-button>
-          <el-button type="text" @click="navigateTo('PersonalCentral')">个人中心</el-button>
+          <router-link to="/myauth/road-predict" class="nav-item" active-class="active-link">出行预测</router-link>
+          <router-link to="/myauth/flow-indication" class="nav-item" active-class="active-link">流量查询</router-link>
+          <router-link to="/myauth/personal-central" class="nav-item" active-class="active-link">个人中心</router-link>
         </div>
       </div>
       <el-dropdown class="avatar-dropdown" @command="handleCommand">
@@ -29,9 +29,6 @@
   </div>
 </template>
 
-
-
-
 <script>
 import { useRouter } from 'vue-router'
 
@@ -51,12 +48,8 @@ export default {
         router.push({ name: 'Login' });
       }
     }
-    const navigateTo = (route) => {
-  router.push({ name: route });
-};
 
     return {
-      navigateTo,
       handleCommand
     }
   }
@@ -91,8 +84,15 @@ export default {
   margin-left: 20px;
 }
 
-.nav-links .el-button {
+.nav-item {
   color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.active-link {
+  background-color: #555;
+  border-radius: 5px;
 }
 
 .avatar-dropdown {
@@ -109,5 +109,4 @@ export default {
 .content-container {
   margin-top: 60px; /* 确保内容在导航栏下方显示 */
 }
-
 </style>
