@@ -1,13 +1,11 @@
 <template>
   <div class="road-predict">
     <div class="search-box origin">
-      <span class="input-label">出发地：</span>
-      <el-input v-model="origin" clearable placeholder="输入出发地" />
+      <el-input v-model="origin" clearable placeholder="出发地" />
       <el-icon><Search /></el-icon>
     </div>
     <div class="search-box destination">
-      <span class="input-label">目的地：</span>
-      <el-input v-model="destination" clearable placeholder="输入目的地" />
+      <el-input v-model="destination" clearable placeholder="目的地" />
       <el-icon><Search /></el-icon>
     </div>
     <div class="time-selection">
@@ -19,17 +17,14 @@
         <el-option label="60分钟" value="60"></el-option>
       </el-select>
     </div>
-    <el-button class="trigger-button" type="primary" @click="onTriggerClick">出发</el-button>
     <div id="mapContainer" class="map-container"></div>
-    
+
     <div v-if="showRoutes" class="routes-container">
       <el-card class="route-card" shadow="hover">
         <template #header>
           <div class="header-content">
             <span>规划路线</span>
-            <el-icon @click="minimizeRoutes" class="minimize-icon">
-              <Minimize />
-            </el-icon>
+            <el-button type="text" @click="minimizeRoutes">最小化</el-button>
           </div>
         </template>
         <el-radio-group v-model="selectedRoute" class="route-options">
@@ -43,24 +38,22 @@
       </el-card>
     </div>
 
-    <el-icon v-if="!showRoutes" @click="maximizeRoutes" class="minimized-icon" style="cursor: pointer; position: absolute; bottom: 20px; left: 20px;">
-      <Expand />
-    </el-icon>
+    <el-button v-if="!showRoutes" @click="maximizeRoutes" class="minimized-button" style="position: absolute; bottom: 20px; left: 20px;">
+      展开
+    </el-button>
   </div>
 </template>
 
 <script>
-import { onMounted, nextTick, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
-import { Search, Minimize, Expand } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { ElButton, ElCard, ElRadio, ElRadioGroup, ElInput, ElIcon, ElSelect, ElOption } from 'element-plus'
 
 export default {
   name: 'RoadPredict',
   components: {
     Search,
-    Minimize,
-    Expand,
     ElButton,
     ElCard,
     ElRadio,
@@ -78,33 +71,30 @@ export default {
     const showRoutes = ref(false)
 
     onMounted(() => {
-      nextTick(() => {
-        window._AMapSecurityConfig = {
-          securityJsCode: 'dfbd343035c1950b9c4ed6d3853bddb4',
-        }
+      window._AMapSecurityConfig = {
+        securityJsCode: '74af883e8262bd7d082b2b757d2cf43a',
+      }
 
-        AMapLoader.load({
-          key: 'fa0f5e8dd4a533d9870323a287d1831f',
-          version: '2.0',
-          plugins: []
-        })
-        .then(AMap => {
-          console.log('高德地图 API 加载成功')
-          const map = new AMap.Map('mapContainer', {
-            center: [116.39, 39.9], // 天安门的经纬度
-            zoom: 11, // 地图级别
-          })
-
-          const marker = new AMap.Marker({
-            position: [116.39, 39.9], // 标记的位置
-          })
-          map.add(marker)
-        })
-        .catch(e => {
-          console.error('地图加载失败:', e) // 加载错误提示
-        })
+      AMapLoader.load({
+        key: '0bf328a28e716a739487e5c91d005c90', // 新的 key
+        version: '2.0',
+        plugins: []
       })
-    });
+      .then(AMap => {
+        const map = new AMap.Map('mapContainer', {
+          center: [116.39, 39.9], // 天安门的经纬度
+          zoom: 11 // 地图级别
+        })
+
+        const marker = new AMap.Marker({
+          position: [116.39, 39.9] // 标记的位置
+        })
+        map.add(marker)
+      })
+      .catch(e => {
+        console.error('地图加载失败:', e) // 加载错误提示
+      })
+    })
 
     const checkInputs = () => {
       if (origin.value && destination.value) {
@@ -126,13 +116,6 @@ export default {
       showRoutes.value = true
     }
 
-    const onTriggerClick = () => {
-      console.log('触发按钮点击')
-      console.log('出发地:', origin.value)
-      console.log('目的地:', destination.value)
-      console.log('选择的时间:', selectedTime.value)
-    }
-
     return {
       origin,
       destination,
@@ -142,8 +125,7 @@ export default {
       checkInputs,
       startJourney,
       minimizeRoutes,
-      maximizeRoutes,
-      onTriggerClick
+      maximizeRoutes
     }
   }
 }
@@ -166,20 +148,6 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   padding: 5px 10px;
   z-index: 10; /* 确保搜索框在地图上方 */
-}
-
-.search-box .input-label {
-  margin-right: 10px; /* 为标签添加一些右边距 */
-  white-space: nowrap; /* 确保文本不换行 */
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  padding: 5px;
-  flex-grow: 1;
-  font-size: 14px;
-  color: #333;
 }
 
 .search-box .el-icon {
@@ -212,14 +180,7 @@ export default {
 }
 
 .time-select {
-  width: 120px; /* 增大选择框的宽度 */
-}
-
-.trigger-button {
-  position: absolute;
-  top: 260px; /* 调整此值以确保按钮在时间选择框下方 */
-  left: 20px;
-  z-index: 10; /* 确保按钮在地图上方 */
+  width: 120px; /* 墛大选择框的宽度 */
 }
 
 .routes-container {
@@ -245,11 +206,7 @@ export default {
   align-items: center;
 }
 
-.minimize-icon {
-  color: black; /* 设置图标颜色为黑色 */
-}
-
-.minimized-icon {
-  font-size: 24px; /* 根据需要调整图标大小 */
+.minimized-button {
+  font-size: 14px; /* 根据需要调整按钮大小 */
 }
 </style>

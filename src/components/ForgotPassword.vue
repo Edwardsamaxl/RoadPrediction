@@ -37,7 +37,7 @@ export default {
       }
       const fullEmail = `${this.email}${this.emailSuffix}`;
       try {
-        const response = await axios.post('http://192.168.43.84:8080/User/update', {
+        const response = await axios.post('http://192.168.43.229:8080/User/update', {
           email: fullEmail
         });
         if (response.data.status === 200) {
