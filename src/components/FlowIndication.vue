@@ -19,9 +19,22 @@
         <el-option label="60分钟" value="60"></el-option>
       </el-select>
     </div>
-    <el-button class="trigger-button" type="primary" @click="onTriggerClick">上传</el-button>
-    <div id="mapContainer" class="map-container"></div>
-    <el-button class="test-button" type="success" @click="loadTestData">加载测试数据</el-button>
+    <div class="buttons">
+      <el-button class="trigger-button" type="primary" @click="onTriggerClick">上传</el-button>
+      <el-button class="test-button" type="success" @click="loadTestData">加载测试数据</el-button>
+    </div>
+    <div class="content">
+      <div id="mapContainer" class="map-container"></div>
+      <div class="info-container">
+        <img :src="heatmapImageUrl" alt="热力图" class="heatmap-image" />
+        <div class="data-table-container">
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="location" label="地址" width="150"></el-table-column>
+            <el-table-column prop="pred0" label="拥挤程度" width="100"></el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,7 +43,7 @@ import { onMounted, ref } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import axios from 'axios'
 import { Search } from '@element-plus/icons-vue'
-import { ElInput, ElIcon, ElButton, ElSelect, ElOption } from 'element-plus'
+import { ElInput, ElIcon, ElButton, ElSelect, ElOption, ElTable, ElTableColumn } from 'element-plus'
 
 export default {
   name: 'FlowIndication',
@@ -40,13 +53,18 @@ export default {
     ElIcon,
     ElButton,
     ElSelect,
-    ElOption
+    ElOption,
+    ElTable,
+    ElTableColumn
   },
   setup() {
     const origin = ref('')
     const destination = ref('')
     const selectedTime = ref(null)
     const map = ref(null)
+    const heatmapImageUrl = ref('') // 热力图 URL
+    const tableData = ref([]) // 表单数据
+    const overlays = ref([]) // 存储覆盖物的数组
 
     onMounted(() => {
       window._AMapSecurityConfig = {
@@ -86,7 +104,12 @@ export default {
       .then(response => {
         const data = response.data.data; // 这里假设返回的数据格式正确
         console.log('收到的数据:', data);
+        clearHeatmapData();
         loadHeatmapData(data);
+
+        // 假设热力图 URL 和表单数据也在响应中返回
+        heatmapImageUrl.value = response.data.heatmapImageUrl;
+        tableData.value = data; // 将数据分配给 tableData 变量
       })
       .catch(error => {
         console.error('获取热力图数据失败:', error);
@@ -95,14 +118,26 @@ export default {
 
     const loadTestData = () => {
       const testData = [
-        { latitude: 39.921984, longitude: 116.418261, pred0: 0.5 },
-        { latitude: 39.9075, longitude: 116.39723, pred0: 0.6 },
-        { latitude: 39.909, longitude: 116.392, pred0: 0.3 },
-        { latitude: 39.914, longitude: 116.404, pred0: 0.8 },
-        { latitude: 39.924, longitude: 116.414, pred0: 0.9 }
+        { latitude: 39.921984, longitude: 116.418261, pred0: 0.5, location: '地点A' },
+        { latitude: 39.9075, longitude: 116.39723, pred0: 0.6, location: '地点B' },
+        { latitude: 39.909, longitude: 116.392, pred0: 0.3, location: '地点C' },
+        { latitude: 39.914, longitude: 116.404, pred0: 0.8, location: '地点D' },
+        { latitude: 39.924, longitude: 116.414, pred0: 0.9, location: '地点E' }
       ]
 
+      clearHeatmapData();
       loadHeatmapData(testData);
+
+      // 测试数据
+      heatmapImageUrl.value = '/mnt/data/image.png';
+      tableData.value = testData;
+    }
+
+    const clearHeatmapData = () => {
+      overlays.value.forEach(overlay => {
+        map.value.remove(overlay)
+      })
+      overlays.value = []
     }
 
     const loadHeatmapData = (data) => {
@@ -117,12 +152,24 @@ export default {
         return '#FF0000'; // 红色
       }
 
+      const getRadius = (pred0) => {
+        const standard = 0.47;
+        if (pred0 <= 0.4782545) {
+          return Math.abs(pred0 - 0.4782545) * 400000; // 绿色
+        } else if (pred0 <= 0.495) {
+          return Math.abs(pred0 - 0.495) * 20000; // 黄色
+        } else {
+          return Math.abs(pred0 - standard) * 9000; // 红色
+        }
+      }
+
       data.forEach((point, index) => {
         try {
           console.log(`添加点 ${index + 1}:`, point)
+          const radius = getRadius(point.pred0); // 根据与阈值的差异设置圆的半径
           const circle = new window.AMap.Circle({
             center: new window.AMap.LngLat(point.longitude, point.latitude),
-            radius: point.pred0 * 1000, // 根据拥挤程度设置圆的半径
+            radius: radius, 
             fillColor: getColor(point.pred0),
             fillOpacity: 0.5,
             strokeColor: getColor(point.pred0),
@@ -130,6 +177,7 @@ export default {
             strokeOpacity: 0.5
           })
           map.value.add(circle)
+          overlays.value.push(circle)
         } catch (error) {
           console.error(`添加点 ${index + 1} 失败:`, error)
         }
@@ -143,7 +191,9 @@ export default {
       destination,
       selectedTime,
       onTriggerClick,
-      loadTestData
+      loadTestData,
+      heatmapImageUrl,
+      tableData
     }
   }
 }
@@ -229,5 +279,25 @@ export default {
   top: 320px; /* 调整此值以确保按钮在上传按钮下方 */
   left: 20px;
   z-index: 10; /* 确保按钮在地图上方 */
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+
+.info-container {
+  width: 40%; /* 确保 info-container 占据右侧的两份 */
+  height: calc(100vh - 60px); /* 确保 info-container 有高度，减去导航栏高度 */
+  overflow-y: auto; /* 确保 info-container 具有滚动功能 */
+}
+
+.heatmap-image {
+  width: 100%; /* 确保热力图图片宽度填满 info-container */
+}
+
+.data-table-container {
+  padding: 10px; /* 为表格容器添加一些内边距 */
 }
 </style>
