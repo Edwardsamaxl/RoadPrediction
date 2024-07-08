@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.backend.Mapper.RouteHistoryMapper">
+
+    <!-- 查询历史记录 -->
+    <select id="searchHistoryById" parameterType="int" resultType="org.example.backend.Entity.RouteHistory">
+        SELECT user_id, start, end, query_time
+        FROM RouteHistory
+        WHERE user_id = #{userId}
+        ORDER BY query_time DESC
+    </select>
+
+    <!-- 插入新历史记录 -->
+    <insert id="insert" parameterType="org.example.backend.Entity.RouteHistory">
+        INSERT INTO RouteHistory (user_id, start, end, query_time)
+        VALUES (#{userId}, #{start}, #{end}, #{queryTime})
+    </insert>
+
+</mapper>
