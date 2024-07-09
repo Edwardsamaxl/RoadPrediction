@@ -25,8 +25,10 @@
     </div>
     <div class="content">
       <div id="mapContainer" class="map-container"></div>
-      <div class="info-container">
-        <img :src="heatmapImageUrl" alt="热力图" class="heatmap-image" />
+      <div class="info-container" v-if="showInfo">
+        <div class="image-container">
+          <img :src="heatmapImageUrl" alt="热力图" class="heatmap-image" />
+        </div>
         <div class="data-table-container">
           <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="location" label="地址" width="150"></el-table-column>
@@ -65,6 +67,7 @@ export default {
     const heatmap = ref(null) // 热力图对象
     const heatmapImageUrl = ref('') // 热力图 URL
     const tableData = ref([]) // 表单数据
+    const showInfo = ref(false) // 控制是否显示右侧信息
 
     onMounted(() => {
       window._AMapSecurityConfig = {
@@ -102,7 +105,7 @@ export default {
       console.log('出发地:', origin.value)
       console.log('目的地:', destination.value)
       console.log('选择的时间:', selectedTime.value)
-      
+
       // 发送请求获取热力图数据
       axios.post('http://192.168.43.229:8080/route', {
         origin: origin.value,
@@ -120,6 +123,7 @@ export default {
 
         heatmapImageUrl.value = response.data.heatmapImageUrl;
         tableData.value = data; // 将数据分配给 tableData 变量
+        showInfo.value = true; // 显示右侧信息
       })
       .catch(error => {
         console.error('获取热力图数据失败:', error);
@@ -140,6 +144,7 @@ export default {
 
       heatmapImageUrl.value = '/mnt/data/image.png';
       tableData.value = testData;
+      showInfo.value = true; // 显示右侧信息
     }
 
     const clearHeatmap = () => {
@@ -184,22 +189,34 @@ export default {
       heatmapImageUrl,
       tableData,
       clearHeatmap,
-      loadHeatmapData
+      loadHeatmapData,
+      showInfo
     }
   }
 }
 </script>
 
-
-
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 禁止页面滚动 */
+}
+
+.flow-indication {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
 .map-container {
-  width: 60%; /* 地图占据左侧五分之三 */
-  height: calc(100vh - 60px); /* 确保地图容器有高度，减去导航栏高度 */
-  margin-top: 0; /* 确保地图紧贴导航栏下方 */
+  flex: 1; /* 地图占据剩余空间 */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   background-color: #f0f0f0; /* 添加背景色以便确认容器存在 */
-  border: 2px solid #ccc; /* 添加边框 */
-  box-sizing: border-box; /* 确保边框在容器内 */
 }
 
 .search-box {
@@ -238,18 +255,18 @@ export default {
 }
 
 .origin {
-  top: 85px; /* 调整此值以确保搜索框在导航栏下方 */
+  top: 65px; /* 调整此值以确保搜索框在导航栏下方 */
   left: 20px;
 }
 
 .destination {
-  top: 140px; /* 调整此值以确保搜索框在出发地搜索框下方 */
+  top: 120px; /* 调整此值以确保搜索框在出发地搜索框下方 */
   left: 20px;
 }
 
 .time-selection {
   position: absolute;
-  top: 200px; /* 调整此值以确保选择框在目的地搜索框下方 */
+  top: 180px; /* 调整此值以确保选择框在目的地搜索框下方 */
   left: 20px;
   display: flex;
   align-items: center;
@@ -262,14 +279,14 @@ export default {
 
 .trigger-button {
   position: absolute;
-  top: 260px; /* 调整此值以确保按钮在时间选择框下方 */
+  top: 240px; /* 调整此值以确保按钮在时间选择框下方 */
   left: 20px;
   z-index: 10; /* 确保按钮在地图上方 */
 }
 
 .test-button {
   position: absolute;
-  top: 320px; /* 调整此值以确保按钮在上传按钮下方 */
+  top: 300px; /* 调整此值以确保按钮在上传按钮下方 */
   left: 20px;
   z-index: 10; /* 确保按钮在地图上方 */
 }
@@ -277,20 +294,31 @@ export default {
 .content {
   display: flex;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: 100%;
 }
 
 .info-container {
+  display: flex;
+  flex-direction: column; /* 使 info-container 内部垂直排列 */
   width: 40%; /* 确保 info-container 占据右侧的两份 */
-  height: calc(100vh - 60px); /* 确保 info-container 有高度，减去导航栏高度 */
-  overflow-y: auto; /* 确保 info-container 具有滚动功能 */
+  height: 100%; /* 确保 info-container 有高度 */
+  overflow: hidden; /* 隐藏超出部分 */
+}
+
+.image-container {
+  height: 50%; /* 图片容器占 info-container 的一半 */
+  padding: 10px; /* 为图片容器添加一些内边距 */
 }
 
 .heatmap-image {
-  width: 100%; /* 确保热力图图片宽度填满 info-container */
+  width: 100%; /* 确保热力图图片宽度填满 image-container */
+  height: 100%; /* 确保热力图图片高度填满 image-container */
+  object-fit: cover; /* 保持图片比例 */
 }
 
 .data-table-container {
+  height: 50%; /* 表格容器占 info-container 的一半 */
   padding: 10px; /* 为表格容器添加一些内边距 */
+  overflow-y: auto; /* 表格内滚动 */
 }
 </style>
