@@ -72,11 +72,11 @@ export default {
 
     onMounted(() => {
       window._AMapSecurityConfig = {
-        securityJsCode: '74af883e8262bd7d082b2b757d2cf43a',
+        securityJsCode: 'c4a180c973adc6a758a5bfaa4ed920d0',
       }
 
       AMapLoader.load({
-        key: '0bf328a28e716a739487e5c91d005c90', // 新的 key
+        key: '0af83ad3683a68de9ffadc1ad63500d8', // 新的 key
         version: '2.0',
         plugins: []
       })

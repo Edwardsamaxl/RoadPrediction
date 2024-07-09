@@ -62,24 +62,35 @@ export default {
     const destination = ref('')
     const selectedTime = ref(null)
     const map = ref(null)
+    const heatmap = ref(null) // 热力图对象
     const heatmapImageUrl = ref('') // 热力图 URL
     const tableData = ref([]) // 表单数据
-    const overlays = ref([]) // 存储覆盖物的数组
 
     onMounted(() => {
       window._AMapSecurityConfig = {
-        securityJsCode: '74af883e8262bd7d082b2b757d2cf43a',
+        securityJsCode: 'c4a180c973adc6a758a5bfaa4ed920d0',
       }
 
       AMapLoader.load({
-        key: '0bf328a28e716a739487e5c91d005c90', // 新的 key
+        key: '0af83ad3683a68de9ffadc1ad63500d8', // 新的 key
         version: '2.0',
+        plugins: ['AMap.HeatMap'] // 加载热力图插件
       })
-      .then(() => {
-        map.value = new window.AMap.Map('mapContainer', {
+      .then((AMap) => {
+        map.value = new AMap.Map('mapContainer', {
           center: [116.39, 39.9], // 天安门的经纬度
           zoom: 11 // 地图级别
         })
+        // 检查是否正确加载了HeatMap插件
+        if (AMap.HeatMap) {
+          heatmap.value = new AMap.HeatMap(map.value, {
+            radius: 25, // 热力图的半径
+            opacity: [0, 0.8] // 热力图透明度
+          });
+          console.log('热力图插件加载成功');
+        } else {
+          console.error('热力图插件加载失败');
+        }
       })
       .catch(e => {
         console.error('地图加载失败:', e) // 加载错误提示
@@ -104,10 +115,9 @@ export default {
       .then(response => {
         const data = response.data.data; // 这里假设返回的数据格式正确
         console.log('收到的数据:', data);
-        clearHeatmapData();
-        loadHeatmapData(data);
+        clearHeatmap(); // 清除已有的热力图数据
+        loadHeatmapData(data); // 加载新的热力图数据
 
-        // 假设热力图 URL 和表单数据也在响应中返回
         heatmapImageUrl.value = response.data.heatmapImageUrl;
         tableData.value = data; // 将数据分配给 tableData 变量
       })
@@ -118,72 +128,51 @@ export default {
 
     const loadTestData = () => {
       const testData = [
-        { latitude: 39.921984, longitude: 116.418261, pred0: 0.5, location: '地点A' },
-        { latitude: 39.9075, longitude: 116.39723, pred0: 0.6, location: '地点B' },
-        { latitude: 39.909, longitude: 116.392, pred0: 0.3, location: '地点C' },
-        { latitude: 39.914, longitude: 116.404, pred0: 0.8, location: '地点D' },
-        { latitude: 39.924, longitude: 116.414, pred0: 0.9, location: '地点E' }
+        { latitude: 39.921984, longitude: 116.418261, pred0: 0.48, location: '地点A' },
+        { latitude: 39.9075, longitude: 116.39723, pred0: 0.49, location: '地点B' },
+        { latitude: 39.909, longitude: 116.392, pred0: 0.47, location: '地点C' },
+        { latitude: 39.914, longitude: 116.404, pred0: 0.50, location: '地点D' },
+        { latitude: 39.924, longitude: 116.414, pred0: 0.51, location: '地点E' }
       ]
 
-      clearHeatmapData();
-      loadHeatmapData(testData);
+      clearHeatmap(); // 清除已有的热力图数据
+      loadHeatmapData(testData); // 加载新的热力图数据
 
-      // 测试数据
       heatmapImageUrl.value = '/mnt/data/image.png';
       tableData.value = testData;
     }
 
-    const clearHeatmapData = () => {
-      overlays.value.forEach(overlay => {
-        map.value.remove(overlay)
-      })
-      overlays.value = []
+    const clearHeatmap = () => {
+      if (heatmap.value && heatmap.value.setDataSet) {
+        heatmap.value.setDataSet({ data: [], max: 1 });
+        console.log('热力图数据已清除');
+      } else {
+        console.error('热力图实例未初始化或 setDataSet 方法不存在');
+      }
     }
 
     const loadHeatmapData = (data) => {
-      if (!map.value) {
-        console.error('地图实例未初始化');
+      if (!map.value || !heatmap.value || !heatmap.value.setDataSet) {
+        console.error('地图或热力图实例未初始化或 setDataSet 方法不存在');
         return;
       }
 
-      const getColor = (pred0) => {
-        if (pred0 <= 0.4782545) return '#00FF00'; // 绿色
-        if (pred0 <= 0.495) return '#FFFF00'; // 黄色
-        return '#FF0000'; // 红色
+      const scalePred = (pred) => {
+        // 将pred从0.47-0.515缩放到0-100
+        return (pred - 0.47) * (1000 / (0.515 - 0.47));
       }
 
-      const getRadius = (pred0) => {
-        const standard = 0.47;
-        if (pred0 <= 0.4782545) {
-          return Math.abs(pred0 - 0.4782545) * 400000; // 绿色
-        } else if (pred0 <= 0.495) {
-          return Math.abs(pred0 - 0.495) * 20000; // 黄色
-        } else {
-          return Math.abs(pred0 - standard) * 9000; // 红色
-        }
-      }
+      const heatmapData = data.map(point => ({
+        lng: point.longitude,
+        lat: point.latitude,
+        count: scalePred(point.pred0) // 缩放后的count
+      }));
 
-      data.forEach((point, index) => {
-        try {
-          console.log(`添加点 ${index + 1}:`, point)
-          const radius = getRadius(point.pred0); // 根据与阈值的差异设置圆的半径
-          const circle = new window.AMap.Circle({
-            center: new window.AMap.LngLat(point.longitude, point.latitude),
-            radius: radius, 
-            fillColor: getColor(point.pred0),
-            fillOpacity: 0.5,
-            strokeColor: getColor(point.pred0),
-            strokeWeight: 1,
-            strokeOpacity: 0.5
-          })
-          map.value.add(circle)
-          overlays.value.push(circle)
-        } catch (error) {
-          console.error(`添加点 ${index + 1} 失败:`, error)
-        }
-      })
-
-      console.log(`${data.length} 个点已添加到地图`)
+      heatmap.value.setDataSet({
+        data: heatmapData,
+        max: 100
+      });
+      console.log('热力图数据已加载', heatmapData);
     }
 
     return {
@@ -193,11 +182,15 @@ export default {
       onTriggerClick,
       loadTestData,
       heatmapImageUrl,
-      tableData
+      tableData,
+      clearHeatmap,
+      loadHeatmapData
     }
   }
 }
 </script>
+
+
 
 <style scoped>
 .map-container {
