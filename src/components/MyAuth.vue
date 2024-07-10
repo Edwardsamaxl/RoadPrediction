@@ -57,6 +57,18 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 防止滚动条出现 */
+}
+
+.myauth-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .myauth-navbar {
   position: fixed;
   top: 0;
@@ -70,7 +82,7 @@ export default {
   justify-content: space-between;
   padding: 0 20px;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: 10;
 }
 
 .left-section {
@@ -107,6 +119,8 @@ export default {
 }
 
 .content-container {
+  flex: 1;
   margin-top: 60px; /* 确保内容在导航栏下方显示 */
+  overflow: hidden; /* 防止滚动条出现 */
 }
 </style>

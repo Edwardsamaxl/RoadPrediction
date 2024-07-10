@@ -3,6 +3,10 @@
     <h2>忘记密码</h2>
     <el-form @submit.prevent="forgotPassword">
       <div class="form-group">
+        <el-label for="username">用户名:</el-label>
+        <el-input v-model="username" placeholder="输入用户名" id="username" required></el-input>
+      </div>
+      <div class="form-group">
         <el-label for="email">邮箱:</el-label>
         <el-input v-model="email" placeholder="输入邮箱" id="email" required>
           <template #append>
@@ -25,12 +29,17 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      username: '',
       email: '',
       emailSuffix: '.com'
     }
   },
   methods: {
     async forgotPassword() {
+      if (!this.username) {
+        this.$message.error('请输入用户名');
+        return;
+      }
       if (!this.email) {
         this.$message.error('请输入邮箱');
         return;
@@ -38,6 +47,7 @@ export default {
       const fullEmail = `${this.email}${this.emailSuffix}`;
       try {
         const response = await axios.post('http://192.168.43.229:8080/User/update', {
+          username: this.username,
           email: fullEmail
         });
         if (response.data.status === 200) {
@@ -61,7 +71,7 @@ export default {
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   width: 340px;
-  height: 370px;
+  height: 420px;
   margin: auto;
   background-color: #fff;
   display: flex;
@@ -95,11 +105,11 @@ button {
   margin-top: 30px;
   width: 150px;
 }
-.forgotbutton{
+.forgotbutton {
   width: 150px;
   height: 32px;
   display: block; /* 独占一行 */
   margin: 0 auto; /* 水平居中 */
-  margin: 40px auto 0; /* 上方20px, 水平居中 */
+  margin: 40px auto 0; /* 上方40px, 水平居中 */
 }
 </style>

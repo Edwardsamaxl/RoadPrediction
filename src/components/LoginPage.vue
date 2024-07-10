@@ -69,7 +69,9 @@ export default {
   width: 340px; /* 固定宽度 */
   height: 370px; /* 固定高度 */
   margin: 0 auto; /* 使其水平居中 */
-  background-color: #fff; /* 背景颜色 */
+  /* background: rgba(0,0,0,0.1); */
+  background-color: #fff;
+  /* 背景颜色 */
   display: flex;
   flex-direction: column;
   justify-content: center; /* 垂直居中 */

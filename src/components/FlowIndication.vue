@@ -1,37 +1,69 @@
 <template>
-  <div class="flow-indication">
-    <div class="search-box origin">
-      <span class="input-label">出发地：</span>
-      <el-input v-model="origin" clearable placeholder="输入出发地" />
-      <el-icon><Search /></el-icon>
-    </div>
-    <div class="search-box destination">
-      <span class="input-label">目的地：</span>
-      <el-input v-model="destination" clearable placeholder="输入目的地" />
-      <el-icon><Search /></el-icon>
-    </div>
-    <div class="time-selection">
-      <span class="input-label">选择时间：</span>
-      <el-select v-model="selectedTime" placeholder="选择时间" class="time-select">
-        <el-option label="15分钟" value="15"></el-option>
-        <el-option label="30分钟" value="30"></el-option>
-        <el-option label="45分钟" value="45"></el-option>
-        <el-option label="60分钟" value="60"></el-option>
-      </el-select>
-    </div>
-    <div class="buttons">
-      <el-button class="trigger-button" type="primary" @click="onTriggerClick">上传</el-button>
-      <el-button class="test-button" type="success" @click="loadTestData">加载测试数据</el-button>
-    </div>
-    <div class="content">
-      <div id="mapContainer" class="map-container"></div>
-      <div class="info-container">
-        <img :src="heatmapImageUrl" alt="热力图" class="heatmap-image" />
-        <div class="data-table-container">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="location" label="地址" width="150"></el-table-column>
-            <el-table-column prop="pred0" label="拥挤程度" width="100"></el-table-column>
-          </el-table>
+  <div class="myauth-container">
+    <nav class="myauth-navbar">
+      <div class="left-section">
+        <h1 class="myauth-title">MyAuth</h1>
+        <div class="nav-links">
+          <router-link to="/myauth/road-predict" class="nav-item" active-class="active-link">出行预测</router-link>
+          <router-link to="/myauth/flow-indication" class="nav-item" active-class="active-link">流量查询</router-link>
+          <router-link to="/myauth/personal-central" class="nav-item" active-class="active-link">个人中心</router-link>
+        </div>
+      </div>
+      <el-dropdown class="avatar-dropdown" @command="handleCommand">
+        <span class="el-dropdown-link">
+          <img src="/image.jpg" class="avatar" alt="Avatar">
+        </span>
+        <template v-slot:dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="road-predict">出行预测</el-dropdown-item>
+            <el-dropdown-item command="flow-indication">流量查询</el-dropdown-item>
+            <el-dropdown-item command="personal-central">个人中心</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </nav>
+    <div class="content-container">
+      <div class="flow-indication">
+        <div id="mapContainer" class="map-container"></div>
+        <div class="search-box origin">
+          <span class="input-label">出发地：</span>
+          <el-input v-model="origin" clearable placeholder="输入出发地" />
+          <el-icon><Search /></el-icon>
+        </div>
+        <div class="search-box destination">
+          <span class="input-label">目的地：</span>
+          <el-input v-model="destination" clearable placeholder="输入目的地" />
+          <el-icon><Search /></el-icon>
+        </div>
+        <div class="time-selection">
+          <span class="input-label">选择时间：</span>
+          <el-select v-model="selectedTime" placeholder="选择时间" class="time-select">
+            <el-option label="15分钟" value="15"></el-option>
+            <el-option label="30分钟" value="30"></el-option>
+            <el-option label="45分钟" value="45"></el-option>
+            <el-option label="60分钟" value="60"></el-option>
+          </el-select>
+        </div>
+        <div class="buttons">
+          <el-button class="trigger-button" type="primary" @click="onTriggerClick">上传</el-button>
+          <el-button class="test-button" type="success" @click="loadTestData">加载测试数据</el-button>
+        </div>
+        <div class="info-container" v-if="showInfo">
+          <table class="transparent-table">
+            <thead>
+              <tr>
+                <th>地址</th>
+                <th>拥挤程度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in tableData" :key="item.location">
+                <td>{{ item.location }}</td>
+                <td>{{ item.pred0 }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -39,32 +71,45 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import axios from 'axios'
 import { Search } from '@element-plus/icons-vue'
-import { ElInput, ElIcon, ElButton, ElSelect, ElOption, ElTable, ElTableColumn } from 'element-plus'
+import { ElInput, ElIcon, ElButton, ElSelect, ElOption } from 'element-plus'
 
 export default {
-  name: 'FlowIndication',
+  name: 'MyAuth',
   components: {
     Search,
     ElInput,
     ElIcon,
     ElButton,
     ElSelect,
-    ElOption,
-    ElTable,
-    ElTableColumn
+    ElOption
   },
   setup() {
+    const router = useRouter();
+
+    const handleCommand = (command) => {
+      if (command === 'road-predict') {
+        router.push({ name: 'RoadPredict' });
+      } else if (command === 'flow-indication') {
+        router.push({ name: 'FlowIndication' });
+      } else if (command === 'personal-central') {
+        router.push({ name: 'PersonalCentral' });
+      } else if (command === 'logout') {
+        router.push({ name: 'Login' });
+      }
+    }
+
     const origin = ref('')
     const destination = ref('')
     const selectedTime = ref(null)
     const map = ref(null)
-    const heatmap = ref(null) // 热力图对象
-    const heatmapImageUrl = ref('') // 热力图 URL
-    const tableData = ref([]) // 表单数据
+    const heatmap = ref(null)
+    const tableData = ref([])
+    const showInfo = ref(false)
 
     onMounted(() => {
       window._AMapSecurityConfig = {
@@ -72,38 +117,30 @@ export default {
       }
 
       AMapLoader.load({
-        key: '0af83ad3683a68de9ffadc1ad63500d8', // 新的 key
+        key: '0af83ad3683a68de9ffadc1ad63500d8',
         version: '2.0',
-        plugins: ['AMap.HeatMap'] // 加载热力图插件
+        plugins: ['AMap.HeatMap']
       })
       .then((AMap) => {
         map.value = new AMap.Map('mapContainer', {
-          center: [116.39, 39.9], // 天安门的经纬度
-          zoom: 11 // 地图级别
+          center: [116.39, 39.9],
+          zoom: 11
         })
-        // 检查是否正确加载了HeatMap插件
         if (AMap.HeatMap) {
           heatmap.value = new AMap.HeatMap(map.value, {
-            radius: 25, // 热力图的半径
-            opacity: [0, 0.8] // 热力图透明度
+            radius: 25,
+            opacity: [0, 0.8]
           });
-          console.log('热力图插件加载成功');
         } else {
           console.error('热力图插件加载失败');
         }
       })
       .catch(e => {
-        console.error('地图加载失败:', e) // 加载错误提示
+        console.error('地图加载失败:', e)
       })
     })
 
     const onTriggerClick = () => {
-      console.log('触发按钮点击')
-      console.log('出发地:', origin.value)
-      console.log('目的地:', destination.value)
-      console.log('选择的时间:', selectedTime.value)
-      
-      // 发送请求获取热力图数据
       axios.post('http://192.168.43.229:8080/route', {
         origin: origin.value,
         destination: destination.value
@@ -113,13 +150,11 @@ export default {
         }
       })
       .then(response => {
-        const data = response.data.data; // 这里假设返回的数据格式正确
-        console.log('收到的数据:', data);
-        clearHeatmap(); // 清除已有的热力图数据
-        loadHeatmapData(data); // 加载新的热力图数据
-
-        heatmapImageUrl.value = response.data.heatmapImageUrl;
-        tableData.value = data; // 将数据分配给 tableData 变量
+        const data = response.data.data;
+        clearHeatmap();
+        loadHeatmapData(data);
+        tableData.value = data;
+        showInfo.value = true;
       })
       .catch(error => {
         console.error('获取热力图数据失败:', error);
@@ -135,17 +170,15 @@ export default {
         { latitude: 39.924, longitude: 116.414, pred0: 0.51, location: '地点E' }
       ]
 
-      clearHeatmap(); // 清除已有的热力图数据
-      loadHeatmapData(testData); // 加载新的热力图数据
-
-      heatmapImageUrl.value = '/mnt/data/image.png';
+      clearHeatmap();
+      loadHeatmapData(testData);
       tableData.value = testData;
+      showInfo.value = true;
     }
 
     const clearHeatmap = () => {
       if (heatmap.value && heatmap.value.setDataSet) {
         heatmap.value.setDataSet({ data: [], max: 1 });
-        console.log('热力图数据已清除');
       } else {
         console.error('热力图实例未初始化或 setDataSet 方法不存在');
       }
@@ -158,64 +191,130 @@ export default {
       }
 
       const scalePred = (pred) => {
-        // 将pred从0.47-0.515缩放到0-100
         return (pred - 0.47) * (1000 / (0.515 - 0.47));
       }
 
       const heatmapData = data.map(point => ({
         lng: point.longitude,
         lat: point.latitude,
-        count: scalePred(point.pred0) // 缩放后的count
+        count: scalePred(point.pred0)
       }));
 
       heatmap.value.setDataSet({
         data: heatmapData,
         max: 100
       });
-      console.log('热力图数据已加载', heatmapData);
     }
 
     return {
+      handleCommand,
       origin,
       destination,
       selectedTime,
       onTriggerClick,
       loadTestData,
-      heatmapImageUrl,
       tableData,
       clearHeatmap,
-      loadHeatmapData
+      loadHeatmapData,
+      showInfo
     }
   }
 }
 </script>
 
-
-
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.myauth-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.active-link {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+.avatar-dropdown {
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.content-container {
+  position: absolute;
+  top: 60px; /* 确保内容在导航栏下方显示 */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.flow-indication {
+  position: relative; /* 确保子元素相对于此容器定位 */
+  height: 100%;
+}
+
 .map-container {
-  width: 60%; /* 地图占据左侧五分之三 */
-  height: calc(100vh - 60px); /* 确保地图容器有高度，减去导航栏高度 */
-  margin-top: 0; /* 确保地图紧贴导航栏下方 */
-  background-color: #f0f0f0; /* 添加背景色以便确认容器存在 */
-  border: 2px solid #ccc; /* 添加边框 */
-  box-sizing: border-box; /* 确保边框在容器内 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
 }
 
 .search-box {
   position: absolute;
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8); /* 背景颜色半透明 */
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   padding: 5px 10px;
-  z-index: 10; /* 确保搜索框在地图上方 */
+  z-index: 2; /* 确保搜索框在地图之上 */
 }
 
 .search-box .input-label {
-  margin-right: 10px; /* 为标签添加一些右边距 */
-  white-space: nowrap; /* 确保文本不换行 */
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
 .search-box input {
@@ -224,73 +323,92 @@ export default {
   padding: 5px;
   flex-grow: 1;
   font-size: 14px;
-  color: #333;
+  color: rgba(0, 0, 0, 0.7); /* 文本颜色半透明 */
+  background-color: rgba(255, 255, 255, 0.8); /* 背景颜色半透明 */
 }
 
 .search-box .el-icon {
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.7); /* 图标颜色半透明 */
   font-size: 18px;
   margin-left: 10px;
 }
 
 .search-box input::placeholder {
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.7); /* 占位符颜色半透明 */
 }
 
 .origin {
-  top: 85px; /* 调整此值以确保搜索框在导航栏下方 */
+  top: 20px; /* 确保在导航栏下方 */
   left: 20px;
 }
 
 .destination {
-  top: 140px; /* 调整此值以确保搜索框在出发地搜索框下方 */
+  top: 70px; /* 确保在导航栏下方 */
   left: 20px;
 }
 
 .time-selection {
   position: absolute;
-  top: 200px; /* 调整此值以确保选择框在目的地搜索框下方 */
+  top: 120px;
   left: 20px;
   display: flex;
   align-items: center;
-  z-index: 10; /* 确保选择框在地图上方 */
+  z-index: 2; /* 确保时间选择框在地图之上 */
 }
 
 .time-select {
-  width: 120px; /* 增大选择框的宽度 */
+  width: 120px;
+  background-color: rgba(255, 255, 255, 0.8); /* 背景颜色半透明 */
 }
 
 .trigger-button {
   position: absolute;
-  top: 260px; /* 调整此值以确保按钮在时间选择框下方 */
+  top: 170px;
   left: 20px;
-  z-index: 10; /* 确保按钮在地图上方 */
+  z-index: 2; /* 确保按钮在地图之上 */
 }
 
 .test-button {
   position: absolute;
-  top: 320px; /* 调整此值以确保按钮在上传按钮下方 */
-  left: 20px;
-  z-index: 10; /* 确保按钮在地图上方 */
-}
-
-.content {
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 60px);
+  top: 220px;
+  left: 10px;
+  z-index: 2; /* 确保按钮在地图之上 */
 }
 
 .info-container {
-  width: 40%; /* 确保 info-container 占据右侧的两份 */
-  height: calc(100vh - 60px); /* 确保 info-container 有高度，减去导航栏高度 */
-  overflow-y: auto; /* 确保 info-container 具有滚动功能 */
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.4); /* 调整透明度 */
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2; /* 确保信息容器在地图之上 */
 }
 
-.heatmap-image {
-  width: 100%; /* 确保热力图图片宽度填满 info-container */
+.transparent-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.data-table-container {
-  padding: 10px; /* 为表格容器添加一些内边距 */
+.transparent-table th, .transparent-table td {
+  background-color: rgba(255, 255, 255, 0); /* 背景颜色透明 */
+  color: rgba(0, 0, 0, 1); /* 文本颜色不透明 */
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0); /* 边框颜色透明 */
+}
+
+.transparent-table th {
+  font-weight: bold;
+}
+
+.el-select-dropdown__item {
+  background-color: rgba(255, 255, 255, 0.8); /* 背景颜色半透明 */
+}
+
+.el-button--primary, .el-button--success {
+  background-color: rgba(64, 158, 255, 0.8); /* 调整按钮背景颜色透明度 */
+  border-color: rgba(64, 158, 255, 0.8); /* 调整按钮边框颜色透明度 */
 }
 </style>
