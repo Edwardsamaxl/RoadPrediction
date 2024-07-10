@@ -1,32 +1,43 @@
-<!-- src/main/resources/Mapper/UserMapper.xml -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.backend.Mapper.UserMapper">
 
-<mapper namespace="org.example.roadprediction.backend.Mapper.UserMapper">
-    <resultMap id="userResultMap" type="org.example.roadprediction.backend.Entity.User">
+    <resultMap id="userResultMap" type="org.example.backend.Entity.User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
-        <result property="password" column="password"/>
+        <result property="password" column="user_password"/>
         <result property="mail" column="mail"/>
-        <!-- 其他字段映射 -->
     </resultMap>
 
-    <select id="selectByUsername" resultMap="userResultMap">
-        SELECT * FROM user WHERE username = #{username}
+    <select id="selectByUsername" resultMap="userResultMap" parameterType="java.lang.String">
+        SELECT id, username, user_password, mail FROM user WHERE username = #{value}
     </select>
 
-    <select id="selectByUsernameAndPassword" resultMap="userResultMap">
-        SELECT * FROM user WHERE username = #{username} AND password = #{password}
-    </select>
 
-    <insert id="insert" parameterType="org.example.roadprediction.backend.Entity.User">
-        INSERT INTO user (username, password, mail)
+    <insert id="insert" parameterType="org.example.backend.Entity.User">
+        INSERT INTO user (username, user_password, mail)
         VALUES (#{username}, #{password}, #{mail})
     </insert>
 
-    <update id="updatePassword" parameterType="org.example.roadprediction.backend.Entity.User">
-        UPDATE user SET password = #{password} WHERE id = #{id}
+    <update id="updatePassword" parameterType="org.example.backend.Entity.User">
+        UPDATE user SET user_password = #{password} WHERE id = #{id}
     </update>
 
-    <select id="selectById" resultMap="userResultMap">
-        SELECT * FROM user WHERE id = #{id}
+    <select id="selectById" resultMap="userResultMap" parameterType="java.lang.Integer">
+        SELECT id, username, user_password FROM user WHERE id = #{value}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id = #{value}
+    </delete>
+
+    <select id="selectByUsernameAndMail" resultMap="userResultMap" parameterType="map">
+        SELECT id, username, user_password, mail
+        FROM user WHERE username = #{username} AND mail = #{mail}
+    </select>
+    <select id="selectByMail" resultMap="userResultMap" parameterType="java.lang.String">
+        SELECT id, username, user_password, mail
+        FROM user WHERE mail = #{mail}
     </select>
 </mapper>

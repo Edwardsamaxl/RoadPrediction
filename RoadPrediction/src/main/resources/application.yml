@@ -1,5 +1,5 @@
 spring:
   datasource:
     username: root
-    password: lxl115269
+    password: wj040911
     url: jdbc:mysql://localhost:3306/mybatis?useSSL=false

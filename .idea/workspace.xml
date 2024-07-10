@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cce098aa-2cf8-40a5-9cd1-ef89f30150e3" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/HELP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/Mapper/RouteHistoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/Mapper/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/RoadPredictionApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/BackendApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Config/SecurityConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Config/WebConfig$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Config/WebConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Controller/RouteController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Controller/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Entity/Journey.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Entity/JourneyData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Entity/Route.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Entity/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Mapper/UserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Service/Impl/UserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/Service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/utils/JourneyConverter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/utils/PasswordUpdateUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/org/example/backend/utils/Response.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/test-classes/org/example/backend/BackendApplicationTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/backEnd.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RoadPrediction/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/RoadPredictionApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Entity/Mail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Entity/PredictData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Entity/RoadData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Mapper/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Service/Impl/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Service/MailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/Service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/java/org/example/roadprediction/backend/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/resources/Mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RoadPrediction/src/main/resources/Mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/RoadPrediction/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/RoadPrediction/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoadPrediction/src/test/java/Service/UserServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/org/example/backend/Controller/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/org/example/backend/Controller/RouteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/org/example/backend/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/org/example/backend/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/backend" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2ix80CLNMsXnI0FCj8ITmrbapNX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.RoadPredictionApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;backend&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="RoadPredictionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="backend (1)" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.RoadPredictionApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="cce098aa-2cf8-40a5-9cd1-ef89f30150e3" name="更改" comment="" />
+      <created>1720420645220</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1720420645220</updated>
+      <workItem from="1720420648173" duration="3759000" />
+      <workItem from="1720437722911" duration="8000" />
+      <workItem from="1720486193364" duration="7564000" />
+      <workItem from="1720506667013" duration="7060000" />
+      <workItem from="1720573080612" duration="6819000" />
+      <workItem from="1720580724025" duration="835000" />
+      <workItem from="1720591579029" duration="1302000" />
+      <workItem from="1720592998675" duration="86000" />
+      <workItem from="1720593141614" duration="2424000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

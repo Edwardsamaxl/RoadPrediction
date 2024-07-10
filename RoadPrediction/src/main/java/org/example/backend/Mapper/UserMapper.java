@@ -1,7 +1,7 @@
-package org.example.roadprediction.backend.Mapper;
+package org.example.backend.Mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.example.roadprediction.backend.Entity.User;
+import org.example.backend.Entity.User;
 
 @Mapper
 public interface UserMapper {
@@ -13,15 +13,6 @@ public interface UserMapper {
      * @return 查询到的用户对象，如果不存在则返回 null
      */
     User selectByUsername(String username);
-
-    /**
-     * 根据用户名和密码查询用户记录
-     *
-     * @param username 用户名
-     * @param password 密码（已加密）
-     * @return 查询到的用户对象，如果用户名或密码不匹配则返回 null
-     */
-    User selectByUsernameAndPassword(String username, String password);
 
     /**
      * 插入新用户记录
@@ -45,13 +36,22 @@ public interface UserMapper {
      * @param id 用户ID
      * @return 查询到的用户对象，如果不存在则返回 null
      */
-    User selectById(int id);
+    User selectById(Integer id);
 
     /**
-     * 删除用户记录
+     * 根据用户名和邮箱地址查询用户对象
      *
-     * @param id 用户ID
-     * @return 删除操作影响的行数
+     * @param username 用户名
+     * @param mail 邮箱地址
+     * @return 查询到的用户，如果不存在则返回null
      */
-    int deleteById(int id);
+    User selectByUsernameAndMail(String username,String mail);
+
+    /**
+     * 根据用户名和邮箱地址查询用户对象
+     *
+     * @param mail 邮箱地址
+     * @return 查询到的用户，如果不存在则返回null
+     */
+    User selectByMail(String mail);
 }

@@ -1,20 +1,21 @@
-package org.example.roadprediction.backend.Entity;
+package org.example.backend.Entity;
+
 
 public class User {
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     private String mail;
-    public User(int id, String username, String password,String mail) {
+    public User(Integer id, String username, String user_password, String mail) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.password = user_password;
         this.mail = mail;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getUsername() {
@@ -29,10 +30,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getMail() {
-        return mail;
-    }
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+    public User(){}
+    public void setMail(String mail){ this.mail = mail; }
+    public String getMail(){ return mail; }
 }
