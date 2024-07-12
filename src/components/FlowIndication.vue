@@ -58,7 +58,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in tableData" :key="item.location">
+              <tr v-for="item in sortedTableData" :key="item.location">
                 <td>{{ item.location }}</td>
                 <td>{{ item.pred0 }}</td>
               </tr>
@@ -72,7 +72,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import axios from 'axios'
 import { Search } from '@element-plus/icons-vue'
@@ -141,10 +141,18 @@ export default {
     })
 
     const onTriggerClick = () => {
+      // 打印输入的数据以进行调试
+      console.log('Origin:', origin.value);
+      console.log('Destination:', destination.value);
+      console.log('Prediction Step:', selectedTime.value);
+
       axios.post('http://192.168.43.229:8080/route', {
-        origin: origin.value,
-        destination: destination.value
+        start: origin.value,
+        end: destination.value
       }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         params: {
           prediction_step: selectedTime.value
         }
@@ -206,6 +214,10 @@ export default {
       });
     }
 
+    const sortedTableData = computed(() => {
+      return tableData.value.slice().sort((a, b) => b.pred0 - a.pred0);
+    });
+
     return {
       handleCommand,
       origin,
@@ -216,7 +228,8 @@ export default {
       tableData,
       clearHeatmap,
       loadHeatmapData,
-      showInfo
+      showInfo,
+      sortedTableData
     }
   }
 }
@@ -380,6 +393,8 @@ html, body {
   bottom: 20px;
   right: 20px;
   width: 300px;
+  max-height: 200px; /* 设置最大高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
   background-color: rgba(255, 255, 255, 0.4); /* 调整透明度 */
   border-radius: 10px;
   padding: 10px;

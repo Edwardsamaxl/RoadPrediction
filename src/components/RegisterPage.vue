@@ -9,12 +9,6 @@
       <div class="form-group">
         <el-label for="email">邮箱:</el-label>
         <el-input v-model="email" placeholder="输入邮箱" id="email" required>
-          <template #append>
-            <el-select v-model="emailSuffix" placeholder="选择后缀">
-              <el-option label=".com" value=".com"></el-option>
-              <el-option label=".cn" value=".cn"></el-option>
-            </el-select>
-          </template>
         </el-input>
       </div>
       <div class="form-group">
@@ -35,7 +29,6 @@ export default {
     return {
       username: '',
       email: '',
-      emailSuffix: '.com',
       password: '',
       passwordError: true,
       showError: false
@@ -64,12 +57,16 @@ export default {
         this.$message.error('请修正表单错误后再提交');
         return;
       }
-      const fullEmail = `${this.email}${this.emailSuffix}`;
+      const fullEmail = `${this.email}`;
       try {
-        const response = await axios.post('http://192.168.43.229:8080/User/register', {
+        const response = await axios.post('http://116.205.111.140:9090/User/register', {
           username: this.username,
-          email: fullEmail,
-          password: this.password
+          password: this.password,
+          mail: fullEmail
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
         if (response.data.status === 200) {
           this.$message.success('注册成功，请登录');
@@ -104,7 +101,7 @@ export default {
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items:flex-start;
   width: 100%;
   margin-bottom: 10px;
 }
@@ -113,12 +110,8 @@ label {
   margin-bottom: 5px;
 }
 
-.el-input {
+.el-input, .el-select {
   width: 100%;
-}
-
-.el-select {
-  width: 100px;
 }
 
 button {
@@ -133,7 +126,7 @@ button {
 .registerbutton{
   width: 150px;
   height: 32px;
-  display: block; /* 独占一行 */
-  margin: 0 auto; /* 水平居中 */
+  display: block;
+  margin: 0 auto;
 }
 </style>

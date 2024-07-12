@@ -38,7 +38,7 @@ export default {
     async login() {
       if (this.username && this.password) {
         try {
-          const response = await axios.post('http://192.168.43.229:8080/User/login', {
+          const response = await axios.post('http://116.205.111.140:9090/User/login', {
             username: this.username,
             password: this.password
           });
