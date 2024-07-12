@@ -175,7 +175,12 @@ export default {
         { latitude: 39.9075, longitude: 116.39723, pred0: 0.49, location: '地点B' },
         { latitude: 39.909, longitude: 116.392, pred0: 0.47, location: '地点C' },
         { latitude: 39.914, longitude: 116.404, pred0: 0.50, location: '地点D' },
-        { latitude: 39.924, longitude: 116.414, pred0: 0.51, location: '地点E' }
+        { latitude: 39.925, longitude: 116.414, pred0: 0.51, location: '地点E' },
+        { latitude: 39.926, longitude: 116.414, pred0: 0.58, location: '地点F' },
+        { latitude: 39.924, longitude: 116.415, pred0: 0.55, location: '地点G' },
+        { latitude: 39.924, longitude: 116.416, pred0: 0.53, location: '地点H' },
+        { latitude: 39.924, longitude: 116.413, pred0: 0.51, location: '地点I' },
+        { latitude: 39.903, longitude: 116.414, pred0: 0.22, location: '地点J' }
       ]
 
       clearHeatmap();
